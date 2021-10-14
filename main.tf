@@ -31,6 +31,14 @@ variable "namespaces" {
   type = string 
 }
 
+resource "null_resource" "web" {
+
+  provisioner "local-exec" {
+        command  = "echo 'hellow world' >> ip.txt" 
+        working_dir = "/home/jana/io"
+  }
+}
+
 resource helm_release appdiksfrtfcb {
   name       = "appdcluster"
   namespace = "appdynamics"

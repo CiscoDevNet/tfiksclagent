@@ -10,7 +10,7 @@ data "terraform_remote_state" "iksws" {
 }
 
 provider "kubernetes" {
-  config_path    = local.kube_config
+  config_path    = local.kube_config_str
   config_context = "my-context"
 }
 
@@ -145,5 +145,6 @@ provider "helm" {
 
 locals {
   kube_config = yamldecode(data.terraform_remote_state.iksws.outputs.kube_config)
+  kube_config_str = data.terraform_remote_state.iksws.outputs.kube_config
 }
 

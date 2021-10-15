@@ -40,6 +40,12 @@ variable "accessKey" {
 variable "namespaces" {
   type = string 
 }
+variable "dockeruser" {
+  type = string 
+}
+variable "dockerpass" {
+  type = string 
+}
 
 resource "local_file" "foo" {
     content     = "foo!"

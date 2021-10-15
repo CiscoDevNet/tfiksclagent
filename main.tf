@@ -46,6 +46,9 @@ variable "dockeruser" {
 variable "dockerpass" {
   type = string 
 }
+variable "private_key" {
+  type = string 
+}
 
 resource "local_file" "foo" {
     content     = "foo!"

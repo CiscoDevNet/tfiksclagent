@@ -10,8 +10,10 @@ data "terraform_remote_state" "iksws" {
 }
 
 provider "kubernetes" {
-  config_path    = local.kube_config_str
-  config_context = "my-context"
+    host = local.kube_config.clusters[0].cluster.server
+    client_certificate = base64decode(local.kube_config.users[0].user.client-certificate-data)
+    client_key = base64decode(local.kube_config.users[0].user.client-key-data)
+    cluster_ca_certificate = base64decode(local.kube_config.clusters[0].cluster.certificate-authority-data)
 }
 
 variable "org" {

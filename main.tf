@@ -2,13 +2,21 @@
 data "terraform_remote_state" "iksws" {
   backend = "remote"
   config = {
-    organization = "Lab14"
+    organization = var.org
     workspaces = {
       name = var.ikswsname
     }
   }
 }
 
+provider "kubernetes" {
+  config_path    = local.kube_config
+  config_context = "my-context"
+}
+
+variable "org" {
+  type = string
+}
 variable "ikswsname" {
   type = string
 }
@@ -39,9 +47,16 @@ resource "null_resource" "web" {
   }
 }
 
+
+resource "kubernetes_namespace" "appd" {
+  metadata {
+    name = "appdynamics"
+  }
+}
+
 resource helm_release appdiksfrtfcb {
   name       = "appdcluster"
-  namespace = "appdynamics"
+  namespace = kubernetes_namespace.appd.metadata.0.name
   chart = "https://prathjan.github.io/helm-chart/cluster-agent-0.1.18.tgz"
 
   set {

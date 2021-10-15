@@ -51,6 +51,20 @@ resource "null_resource" "web" {
     command = "mkdir /tmp/python_lambda_package"
   }
 
+  provisioner "remote-exec" {
+    inline = [
+        "docker login -u ${var.dockeruser} -p ${var.dockerpass}",
+    ]
+    connection {
+      type = "ssh"
+      host = local.kube_config.clusters[0].cluster.server 
+      user = "iksadmin"
+      private_key = var.private_key
+      port = "22"
+      agent = false
+    }
+  }
+
 }
 
 

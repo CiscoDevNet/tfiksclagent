@@ -39,12 +39,16 @@ variable "namespaces" {
   type = string 
 }
 
-resource "null_resource" "web" {
+resource "local_file" "foo" {
+    content     = "foo!"
+    filename = "${path.module}/foo.bar"
+}
 
-  provisioner "local-exec" {
-        command  = "echo 'hellow world' >> ip.txt" 
-        working_dir = "/home/jana/io"
+resource "null_resource" "web" {
+  provisioner local-exec {
+    command = "mkdir /tmp/python_lambda_package"
   }
+
 }
 
 

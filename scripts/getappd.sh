@@ -30,6 +30,10 @@ parse_input
 #. /home/ec2-user/environment/workshop/application.env
 #echo $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY > /tmp/accesskey
 
+download=zzz
+
+install=yyy
+echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
 #echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
-echo -n "{\"download\":aaa, \"install\":yyy }" | tr -d ']['
+#echo -n "{\"download\":aaa, \"install\":yyy }" | tr -d ']['
 #END

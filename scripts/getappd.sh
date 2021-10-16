@@ -43,7 +43,7 @@ parse_input
 
 download="zzz"
 install="yyy"
-
+jq -n  '{"branch":"branch", "commit":"commit"}'
 #echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
 #echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
 #echo -n "{\"download\":aaa, \"install\":yyy }" | tr -d ']['

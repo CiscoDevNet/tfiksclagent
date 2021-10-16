@@ -1,3 +1,22 @@
+data "external" "appd" {
+  program = ["bash", "./scripts/getappd.sh"]
+  query = {
+    nbrapm = "${var.nbrapm}"
+    nbrma = "${var.nbrma}"
+    nbrsim  = "${var.nbrsim}"
+    nbrnet = "${var.nbrnet}"
+  }
+}
+
+
+
+#output "accesskey" {
+#  value = data.external.appd.result["accesskey"]
+#}
+
+
+
+
 #Helm install of sample app on IKS
 data "terraform_remote_state" "iksws" {
   backend = "remote"
@@ -62,7 +81,7 @@ resource "null_resource" "web" {
 
   provisioner "remote-exec" {
     inline = [
-        "docker login -u ${var.dockeruser} -p ${var.dockerpass}",
+        "docker login containers.cisco.com -u ${var.dockeruser} -p ${var.dockerpass}",
     ]
     connection {
       type = "ssh"

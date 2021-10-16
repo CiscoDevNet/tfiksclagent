@@ -31,5 +31,5 @@ parse_input
 #echo $APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY > /tmp/accesskey
 
 #echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
-#echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
+echo -n "{\"download\":"xxx", \"install\":"yyy" }" | tr -d ']['
 #END

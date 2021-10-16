@@ -44,7 +44,7 @@ parse_input
 download="zzz"
 install="yyy"
 
-echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
+#echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
 #echo -n "{\"download\":${download}, \"install\":${install}}" | tr -d ']['
 #echo -n "{\"download\":aaa, \"install\":yyy }" | tr -d ']['
 #END

@@ -10,6 +10,17 @@ data "terraform_remote_state" "iksws" {
   }
 }
 
+data "terraform_remote_state" "host" {
+  backend = "remote"
+  config = {
+    organization = var.org
+    workspaces = {
+      name = var.hostwsname
+    }
+  }
+}
+
+
 provider "kubernetes" {
     host = local.kube_config.clusters[0].cluster.server
     client_certificate = base64decode(local.kube_config.users[0].user.client-certificate-data)
@@ -59,7 +70,7 @@ resource "null_resource" "web" {
     ]
     connection {
       type = "ssh"
-      host = local.kube_config.clusters[0].cluster.server 
+      host = local.host
       user = "iksadmin"
       private_key = var.private_key
       port = "22"
@@ -185,5 +196,6 @@ provider "helm" {
 locals {
   kube_config = yamldecode(data.terraform_remote_state.iksws.outputs.kube_config)
   kube_config_str = data.terraform_remote_state.iksws.outputs.kube_config
+  host = data.terraform_remote_state.host.outputs.host
 }
 

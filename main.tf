@@ -76,9 +76,10 @@ resource "kubernetes_namespace" "appd" {
   }
 }
 
-data "kubernetes_secret" "accesssecret" {
+data "kubernetes_secret" "access" {
   metadata {
-    name = "accesskey"
+    name = "accesssecret"
+    namespace = "default"
   }
   binary_data = {
     "accesskey" = ""
@@ -110,7 +111,7 @@ resource helm_release appdiksfrtfcb {
   set {
     name  = "controllerInfo.accessKey"
     # value = var.accessKey
-    value = "${data.kubernetes_secret.accesssecret.data["accesskey"]}"
+    value = "${data.kubernetes_secret.access.data["accesskey"]}"
   }
   set {
     name  = "clusterAgent.nsToMonitorRegex"

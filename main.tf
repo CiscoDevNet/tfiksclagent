@@ -168,6 +168,10 @@ resource helm_release appdiksfrtfcb {
 #  }
 }
 
+output "accesskey" {
+  value = "${data.kubernetes_secret.access.binary_data["accesskey"]}" 
+}
+
 provider "helm" {
   kubernetes {
     host = local.kube_config.clusters[0].cluster.server

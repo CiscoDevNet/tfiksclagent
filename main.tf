@@ -168,7 +168,7 @@ resource helm_release appdiksfrtfcb {
 #  }
 }
 
-output "accesskey" {
+output "access" {
   value = "${data.kubernetes_secret.access.binary_data["accesskey"]}" 
 }
 

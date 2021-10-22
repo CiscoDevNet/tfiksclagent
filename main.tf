@@ -125,7 +125,7 @@ resource helm_release appdiksfrtfcb {
   set {
     name  = "controllerInfo.accessKey"
     #value = var.accessKey
-    value = base64decode(data.kubernetes_secret.access.binary_data["accesskey"]})
+    value = base64decode(data.kubernetes_secret.access.binary_data["accesskey"])
   }
   set {
     name  = "clusterAgent.nsToMonitorRegex"

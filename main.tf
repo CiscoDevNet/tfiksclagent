@@ -124,8 +124,8 @@ resource helm_release appdiksfrtfcb {
   }
   set {
     name  = "controllerInfo.accessKey"
-    value = var.accessKey
-    # value = "${data.kubernetes_secret.access.binary_data["accesskey"]}"
+    #value = var.accessKey
+    value = base64decode(data.kubernetes_secret.access.binary_data["accesskey"]}")
   }
   set {
     name  = "clusterAgent.nsToMonitorRegex"
@@ -180,11 +180,6 @@ resource helm_release appdiksfrtfcb {
 #    name  = "logProperties.logLevel"
 #    value = "DEBUG"
 #  }
-}
-
-output "access" {
-  value = "${data.kubernetes_secret.access.binary_data["accesskey"]}" 
-  sensitive = true
 }
 
 provider "helm" {

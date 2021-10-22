@@ -80,6 +80,10 @@ data "kubernetes_secret" "accesssecret" {
   metadata {
     name = "accesskey"
   }
+  binary_data = {
+    "accesskey" = ""
+
+  }
 }
 
 resource helm_release appdiksfrtfcb {

@@ -34,6 +34,9 @@ variable "org" {
 variable "ikswsname" {
   type = string
 }
+variable "hostwsname" {
+  type = string
+}
 variable "url" {
   type = string
 }

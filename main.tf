@@ -1,43 +1,3 @@
-data "external" "appd" {
-  program = ["bash", "./scripts/getappd.sh"]
-  query = {
-    appname = "aaa"
-    accesskey = "NA"
-    jver = "bbb"
-    clientid = "ccc"
-    clientsecret = "ddd"
-    url = "eee"
-
-
-
-
-#    nbrapm = "${var.nbrapm}"
-#    nbrma = "${var.nbrma}"
-#    nbrsim  = "${var.nbrsim}"
-#    nbrnet = "${var.nbrnet}"
-  }
-}
-
-
-variable "nbrapm" {
-  type = string
-}
-variable "nbrma" {
-  type = string
-}
-variable "nbrsim" {
-  type = string
-}
-variable "nbrnet" {
-  type = string
-}
-
-#output "accesskey" {
-#  value = data.external.appd.result["accesskey"]
-#}
-
-
-
 
 #Helm install of sample app on IKS
 data "terraform_remote_state" "iksws" {
@@ -91,16 +51,8 @@ variable "private_key" {
   type = string 
 }
 
-resource "local_file" "foo" {
-    content     = "foo!"
-    filename = "${path.module}/foo.bar"
-}
 
 resource "null_resource" "web" {
-  provisioner local-exec {
-    command = "mkdir /tmp/python_lambda_package"
-  }
-
   provisioner "remote-exec" {
     inline = [
         "docker login containers.cisco.com -u ${var.dockeruser} -p ${var.dockerpass}",
@@ -121,6 +73,12 @@ resource "null_resource" "web" {
 resource "kubernetes_namespace" "appd" {
   metadata {
     name = "appdynamics"
+  }
+}
+
+data "kubernetes_secret" "accesssecret" {
+  metadata {
+    name = "accesskey"
   }
 }
 
@@ -147,7 +105,8 @@ resource helm_release appdiksfrtfcb {
   }
   set {
     name  = "controllerInfo.accessKey"
-    value = var.accessKey
+    # value = var.accessKey
+    value = data.kubernetes_secret.accesssecret.data.accesskey
   }
   set {
     name  = "clusterAgent.nsToMonitorRegex"

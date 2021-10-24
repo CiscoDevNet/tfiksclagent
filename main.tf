@@ -1,4 +1,14 @@
 
+data "terraform_remote_state" "global" {
+  backend = "remote"
+  config = {
+    organization = var.org
+    workspaces = {
+      name = var.globalwsname
+    }
+  }
+}
+
 #Helm install of sample app on IKS
 data "terraform_remote_state" "iksws" {
   backend = "remote"
@@ -37,42 +47,18 @@ variable "ikswsname" {
 variable "hostwsname" {
   type = string
 }
-variable "url" {
-  type = string
-}
-variable "account" {
-  type = string
-}
-variable "username" {
-  type = string
-}
-variable "password" {
-  type = string
-}
-variable "namespaces" {
-  type = string 
-}
-variable "dockeruser" {
-  type = string 
-}
-variable "dockerpass" {
-  type = string 
-}
-variable "private_key" {
-  type = string 
-}
 
 
 resource "null_resource" "web" {
   provisioner "remote-exec" {
     inline = [
-        "docker login containers.cisco.com -u ${var.dockeruser} -p ${var.dockerpass}",
+        "docker login containers.cisco.com -u ${local.dockeruser} -p ${local.dockerpass}",
     ]
     connection {
       type = "ssh"
       host = local.host
       user = "iksadmin"
-      private_key = var.private_key
+      private_key = local.private_key
       port = "22"
       agent = false
     }
@@ -105,19 +91,19 @@ resource helm_release appdiksfrtfcb {
 
   set {
     name  = "controllerInfo.url"
-    value = var.url 
+    value = local.url 
   }
   set {
     name  = "controllerInfo.account"
-    value = var.account
+    value = local.account
   }
   set {
     name  = "controllerInfo.username"
-    value = var.username
+    value = local.username
   }
   set {
     name  = "controllerInfo.password"
-    value = var.password
+    value = local.password
   }
   set {
     name  = "controllerInfo.accessKey"
@@ -158,7 +144,8 @@ resource helm_release appdiksfrtfcb {
 #  }
   set {
     name  = "instrumentationConfig.defaultAppName"
-    value = "IKSChaiStore"
+    value = local.storename
+    # value = "IKSChaiStore"
   }
 #  set {
 #    name  = "instrumentationConfig.appNameStrategy"
@@ -191,5 +178,14 @@ locals {
   kube_config = yamldecode(data.terraform_remote_state.iksws.outputs.kube_config)
   kube_config_str = data.terraform_remote_state.iksws.outputs.kube_config
   host = data.terraform_remote_state.host.outputs.host
+  privatekey = data.terraform_remote_state.global.outputs.privatekey
+  url = data.terraform_remote_state.global.outputs.url
+  account = data.terraform_remote_state.global.outputs.account
+  namespaces = data.terraform_remote_state.global.outputs.namespaces
+  username = data.terraform_remote_state.global.outputs.username
+  password = data.terraform_remote_state.global.outputs.password
+  dockeruser = data.terraform_remote_state.global.outputs.dockeruser 
+  dockerpass = data.terraform_remote_state.global.outputs.dockerpass 
+  storename = data.terraform_remote_state.global.outputs.storename
 }
 

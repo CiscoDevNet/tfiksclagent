@@ -190,6 +190,7 @@ locals {
   privatekey = data.terraform_remote_state.global.outputs.privatekey
   url = data.terraform_remote_state.global.outputs.url
   account = data.terraform_remote_state.global.outputs.account
+  duser = data.terraform_remote_state.global.outputs.dockeruser
   namespaces = data.terraform_remote_state.global.outputs.namespaces
   username = data.terraform_remote_state.global.outputs.username
   password = data.terraform_remote_state.global.outputs.password

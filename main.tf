@@ -187,8 +187,8 @@ locals {
   namespaces = data.terraform_remote_state.global.outputs.namespaces
   username = data.terraform_remote_state.global.outputs.username
   password = data.terraform_remote_state.global.outputs.password
-  dckeruser = data.terraform_remote_state.global.outputs.dockeruser
-  dckerpass = data.terraform_remote_state.global.outputs.dockerpass
+  dckeruser = data.terraform_remote_state.global.outputs.dockeruserxxx
+  dckerpass = data.terraform_remote_state.global.outputs.dockerpassxxx
   storename = data.terraform_remote_state.global.outputs.storename
 }
 

@@ -54,7 +54,7 @@ variable "globalwsname" {
 resource "null_resource" "web" {
   provisioner "remote-exec" {
     inline = [
-        "docker login containers.cisco.com -u ${local.dockeruser} -p ${local.dockerpass}",
+        "sudo docker login containers.cisco.com -u ${local.dockeruser} -p ${local.dockerpass}",
     ]
     connection {
       type = "ssh"

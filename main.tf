@@ -67,7 +67,7 @@ resource "null_resource" "web" {
       type = "ssh"
       host = local.host
       user = "iksadmin"
-      private_key = local.private_key
+      private_key = local.privatekey
       port = "22"
       agent = false
     }

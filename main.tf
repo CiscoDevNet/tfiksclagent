@@ -51,17 +51,10 @@ variable "globalwsname" {
   type = string
 }
 
-variable "duser" {
-  type = string
-}
-variable "dpass" {
-  type = string
-}
-
 resource "null_resource" "web" {
   provisioner "remote-exec" {
     inline = [
-        "docker login containers.cisco.com -u ${var.duser} -p ${var.dpass}",
+        "docker login containers.cisco.com -u ${local.dockeruser} -p ${local.dockerpass}",
     ]
     connection {
       type = "ssh"
@@ -195,6 +188,7 @@ locals {
   username = data.terraform_remote_state.global.outputs.username
   password = data.terraform_remote_state.global.outputs.password
   dockeruser = data.terraform_remote_state.global.outputs.dockeruser
+  dockerpass = data.terraform_remote_state.global.outputs.dockerpass
 #  dockeruser = data.terraform_remote_state.global.outputs.dockeruser
 #  dckerpass = data.terraform_remote_state.global.outputs.dockerpassxxx
   storename = data.terraform_remote_state.global.outputs.storename

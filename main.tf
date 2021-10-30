@@ -180,7 +180,7 @@ locals {
   kube_config = yamldecode(data.terraform_remote_state.iksws.outputs.kube_config)
   kube_config_str = data.terraform_remote_state.iksws.outputs.kube_config
   host = data.terraform_remote_state.host.outputs.host
-  privatekey = data.terraform_remote_state.global.outputs.privatekey
+  privatekey = base64decode(data.terraform_remote_state.global.outputs.privatekey)
   url = data.terraform_remote_state.global.outputs.url
   account = data.terraform_remote_state.global.outputs.account
   duser = data.terraform_remote_state.global.outputs.account

@@ -51,22 +51,22 @@ variable "globalwsname" {
   type = string
 }
 
-resource "null_resource" "web" {
-  provisioner "remote-exec" {
-    inline = [
-        "sudo docker login containers.cisco.com -u ${local.dockeruser} -p ${local.dockerpass}",
-    ]
-    connection {
-      type = "ssh"
-      host = local.host
-      user = "iksadmin"
-      private_key = local.privatekey
-      port = "22"
-      agent = false
-    }
-  }
-
-}
+#resource "null_resource" "web" {
+#  provisioner "remote-exec" {
+#    inline = [
+#        "sudo docker login containers.cisco.com -u ${local.dockeruser} -p ${local.dockerpass}",
+#    ]
+#    connection {
+#      type = "ssh"
+#      host = local.host
+#      user = "iksadmin"
+#      private_key = local.privatekey
+#      port = "22"
+#      agent = false
+#    }
+#  }
+#
+#}
 
 
 resource "kubernetes_namespace" "appd" {
